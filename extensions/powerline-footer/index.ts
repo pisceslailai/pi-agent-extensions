@@ -244,7 +244,19 @@ class PowerlineFooter implements Component {
 		const sessionName = this.getSessionName();
 		const sessionInfo = sessionName ? `${MAUVE}[${sessionName}]${RESET} ` : "";
 
-		const left = `${sessionInfo}${BOLD}${BLUE} ${shortDir}${RESET}${gitInfo}`;
+		let extensionStatuses = "";
+		const statuses = this.footerData.getExtensionStatuses();
+		if (statuses.size > 0) {
+			const parts: string[] = [];
+			for (const [, text] of statuses) {
+				if (text) parts.push(text);
+			}
+			if (parts.length > 0) {
+				extensionStatuses = ` ${DIM}|${RESET} ${parts.join(" ")}`;
+			}
+		}
+
+		const left = `${sessionInfo}${BOLD}${BLUE} ${shortDir}${RESET}${gitInfo}${extensionStatuses}`;
 		const right = `${OVERLAY2}${modelShort}${RESET} ${contextInfo}${costInfo}${durationInfo}${envInfo} ${DIM}${currentTime}${RESET}`;
 		const leftWidth = visibleWidth(left);
 		const rightWidth = visibleWidth(right);
@@ -261,17 +273,6 @@ class PowerlineFooter implements Component {
 				line = truncatedLeft + " ".repeat(Math.max(minPadding, width - truncatedLeftWidth - rightWidth)) + right;
 			} else {
 				line = this.fitToWidth(right, width);
-			}
-		}
-
-		const statuses = this.footerData.getExtensionStatuses();
-		if (statuses.size > 0) {
-			const parts: string[] = [];
-			for (const [, text] of statuses) {
-				if (text) parts.push(text);
-			}
-			if (parts.length > 0) {
-				line = this.fitToWidth(`${line} ${DIM}|${RESET} ${parts.join(" ")}`, width);
 			}
 		}
 

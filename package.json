@@ -50,7 +50,8 @@
       "./extensions/whimsical/index.ts",
       "./extensions/btw/index.ts",
       "./extensions/powerline-footer/index.ts",
-      "./extensions/workflow/index.ts"
+      "./extensions/workflow/index.ts",
+      "./extensions/proxy/index.ts"
     ],
     "themes": [
       "./themes/nightowl.json",
