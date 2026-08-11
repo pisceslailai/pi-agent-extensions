@@ -256,7 +256,7 @@ class PowerlineFooter implements Component {
 			}
 		}
 
-		const left = `${sessionInfo}${BOLD}${BLUE} ${shortDir}${RESET}${gitInfo}${extensionStatuses}`;
+		const left = `${extensionStatuses}${sessionInfo}${BOLD}${BLUE} ${shortDir}${RESET}${gitInfo}`;
 		const right = `${OVERLAY2}${modelShort}${RESET} ${contextInfo}${costInfo}${durationInfo}${envInfo} ${DIM}${currentTime}${RESET}`;
 		const leftWidth = visibleWidth(left);
 		const rightWidth = visibleWidth(right);
