@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { readFile, rm } from "node:fs/promises";
 import { describe, it, after } from "node:test";
+import { join } from "node:path";
 import { createPendingFile } from "../../extensions/ask-user/modes/print.js";
 import type { AskUserParams } from "../../extensions/ask-user/types.js";
 
@@ -13,7 +14,8 @@ const mockContext = {
 } as any;
 
 describe("createPendingFile", () => {
-  const testFile = "/tmp/.pi/pending-questions.json";
+  // Built with the platform separator so the assertion also holds on Windows.
+  const testFile = join("/tmp", ".pi", "pending-questions.json");
 
   after(async () => {
     try {

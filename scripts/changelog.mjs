@@ -19,6 +19,15 @@ function packageVersion() {
   return JSON.parse(readFileSync(packagePath, "utf8")).version;
 }
 
+/**
+ * Reads the changelog as LF text regardless of the checkout's line endings.
+ * Git on Windows can hand out CRLF files even though the repository stores LF.
+ */
+function readChangelog() {
+  const text = readFileSync(changelogPath, "utf8");
+  return { text: text.replace(/\r\n/g, "\n"), eol: text.includes("\r\n") ? "\r\n" : "\n" };
+}
+
 function releaseHeadings(text) {
   return [...text.matchAll(/^## \[(\d+\.\d+\.\d+)\] - (\d{4}-\d{2}-\d{2})$/gm)].map(
     (match) => ({ version: match[1], date: match[2] }),
@@ -36,7 +45,7 @@ function compareVersions(left, right) {
 
 function check(expectedVersion = packageVersion()) {
   if (!semverPattern.test(expectedVersion)) fail(`invalid expected version ${expectedVersion}`);
-  const text = readFileSync(changelogPath, "utf8");
+  const { text } = readChangelog();
   if (!text.startsWith("# Changelog\n")) fail("CHANGELOG.md must start with '# Changelog'");
   if (!/^## \[Unreleased\]$/m.test(text)) fail("missing [Unreleased] section");
 
@@ -63,7 +72,7 @@ function check(expectedVersion = packageVersion()) {
 
 function promote(version) {
   if (!version || !semverPattern.test(version)) fail("promote requires an X.Y.Z version");
-  const text = readFileSync(changelogPath, "utf8");
+  const { text, eol } = readChangelog();
   if (releaseHeadings(text).some((heading) => heading.version === version)) {
     check(version);
     return;
@@ -76,7 +85,7 @@ function promote(version) {
     /^## \[Unreleased\]\n\n/m,
     `## [Unreleased]\n\n## [${version}] - ${date}\n\n`,
   );
-  writeFileSync(changelogPath, promoted, "utf8");
+  writeFileSync(changelogPath, eol === "\r\n" ? promoted.replace(/\n/g, "\r\n") : promoted, "utf8");
   check(version);
 }
 

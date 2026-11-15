@@ -74,9 +74,9 @@
     "typescript": "^5.9.3"
   },
   "scripts": {
-    "test": "node --import tsx --test 'tests/**/*.test.ts' 'tests/*.test.ts' && node scripts/changelog.mjs check",
-    "test:workflow": "node --import tsx --test 'tests/workflow/**/*.test.ts'",
-    "typecheck:workflow": "tsc --noEmit --target ES2022 --module NodeNext --moduleResolution NodeNext --skipLibCheck --strict extensions/workflow/*.ts tests/workflow/*.ts",
+    "test": "node --import tsx --test tests/**/*.test.ts tests/*.test.ts && node scripts/changelog.mjs check",
+    "test:workflow": "node --import tsx --test tests/workflow/**/*.test.ts",
+    "typecheck:workflow": "tsc -p tsconfig.workflow.json",
     "changelog:check": "node scripts/changelog.mjs check",
     "changelog:promote": "node scripts/changelog.mjs promote",
     "release:check": "./scripts/check-release.sh",

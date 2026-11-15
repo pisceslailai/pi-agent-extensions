@@ -6,6 +6,8 @@ All notable changes to this project are documented here. Release dates match the
 
 ### Fixed
 - `typebox` is now declared as a host-provided peer dependency (`"*"`) instead of a pinned runtime dependency, so Pi's extension loader shares its bundled TypeBox instance and no longer reports the duplicate-runtime-module warning. Runtime sources and tests import the `typebox` package name, and handoff validation failures report the failing instance path instead of `undefined`.
+- `npm test`, `npm run test:workflow`, and `npm run typecheck:workflow` now work on Windows: test globs are no longer quoted for POSIX shells, the workflow type check runs from `tsconfig.workflow.json`, and `scripts/changelog.mjs` normalizes CRLF changelog checkouts while preserving the file's line endings when promoting.
+- The ask-user pending-file test builds its expected path with the platform separator instead of a hardcoded POSIX path.
 
 ## [0.5.2] - 2026-07-19
 
