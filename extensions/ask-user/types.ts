@@ -1,5 +1,5 @@
-import type { Static } from "@sinclair/typebox";
-import { Type } from "@sinclair/typebox";
+import type { Static } from "typebox";
+import { Type } from "typebox";
 
 /**
  * Question schema - flexible structure supporting text input and options
@@ -30,12 +30,16 @@ export const AskUserParams = Type.Object({
     minItems: 1,
   }),
   metadata: Type.Optional(
-    Type.Object(
-      {},
-      {
-        additionalProperties: true,
-        description: "Optional metadata for tracking (e.g., { source: 'setup-wizard' })",
-      },
+    // Typed as a plain string-keyed record so `Static` matches the JSON Schema
+    // (`object` with `additionalProperties: true`), which is what Pi validates.
+    Type.Unsafe<Record<string, unknown>>(
+      Type.Object(
+        {},
+        {
+          additionalProperties: true,
+          description: "Optional metadata for tracking (e.g., { source: 'setup-wizard' })",
+        },
+      ),
     ),
   ),
 });

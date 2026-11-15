@@ -94,6 +94,8 @@ describe("parseExtractionResponse", () => {
     assert.ok(!result.success);
     assert.ok(result.error);
     assert.ok(result.error.includes("validation"));
+    // TypeBox 1.x validation errors expose `instancePath`, not the old `path`
+    assert.ok(result.error.includes("/relevantFiles/0"), result.error);
   });
 
   it("returns error for unparseable text", () => {

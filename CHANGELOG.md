@@ -4,6 +4,9 @@ All notable changes to this project are documented here. Release dates match the
 
 ## [Unreleased]
 
+### Fixed
+- `typebox` is now declared as a host-provided peer dependency (`"*"`) instead of a pinned runtime dependency, so Pi's extension loader shares its bundled TypeBox instance and no longer reports the duplicate-runtime-module warning. Runtime sources and tests import the `typebox` package name, and handoff validation failures report the failing instance path instead of `undefined`.
+
 ## [0.5.2] - 2026-07-19
 
 ### Added

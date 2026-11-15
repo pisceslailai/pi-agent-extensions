@@ -31,7 +31,7 @@ extensions/
 
 ### Shared Patterns
 
-- **TypeBox schemas** (`@sinclair/typebox`) for runtime validation with TypeScript type inference — see `types.ts` in each extension
+- **TypeBox schemas** (`typebox`) for runtime validation with TypeScript type inference — see `types.ts` in each extension
 - **Mode-based execution**: Extensions detect `ctx.hasUI` to switch between interactive TUI mode and print/file-based fallback mode
 - **ESM imports with `.js` extensions**: All relative imports use `.js` suffix (e.g., `import { foo } from "./module.js"`)
 - **Signal-based cancellation**: Long operations accept `AbortSignal` for cancellable workflows
@@ -55,6 +55,9 @@ extensions/
 - `@earendil-works/pi-coding-agent` — Extension API, session management
 - `@earendil-works/pi-ai` — LLM completion interface
 - `@earendil-works/pi-tui` — Terminal UI components (Editor, SelectList, Container, Border)
+- `typebox` — TypeBox schemas (`Type`, `Static`, `typebox/value`), aliased to Pi's bundled copy
+
+Host-provided packages belong in `peerDependencies` with a `"*"` range, never in `dependencies`. A physical copy in the package's own `node_modules` bypasses Pi's extension module mapping and can create duplicate classes and registries. `typebox` is only a `devDependencies` entry for local type checking.
 
 ## Testing
 
